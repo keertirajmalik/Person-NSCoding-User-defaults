@@ -10,7 +10,7 @@ import UIKit
 class Person: NSObject, NSCoding {
     func encode(with coder: NSCoder) {
         coder.encode(name, forKey: "name")
-        coder.encodeCInt(image, forKey: "image")
+        coder.encode(image, forKey: "image")
     }
     
     required init?(coder: NSCoder) {
