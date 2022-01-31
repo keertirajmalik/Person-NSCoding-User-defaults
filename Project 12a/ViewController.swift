@@ -58,6 +58,7 @@ class ViewController: UICollectionViewController {
             self?.people.remove(at: personIndex)
             
             self?.collectionView.reloadData()
+            self?.save()
         })
         present(ac, animated: true)
     }
@@ -72,6 +73,7 @@ class ViewController: UICollectionViewController {
             person.name = newName
             
             self?.collectionView.reloadData()
+            self?.save()
         })
         
         present(ac, animated: true)
@@ -105,13 +107,22 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
         let person = Person(name: "Unknown", image: imageName)
         people.append(person)
         collectionView.reloadData()
-        
+        save()
         dismiss(animated: true)
     }
     
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
+    }
+}
+
+extension ViewController {
+    func save() {
+        if let savedData = try? NSKeyedArchiver.archivedData(withRootObject: people, requiringSecureCoding: false) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "people")
+        }
     }
 }
 
