@@ -14,6 +14,14 @@ class ViewController: UICollectionViewController {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewPerson))
         // Do any additional setup after loading the view.
+        
+        let defaults = UserDefaults.standard
+        
+        if let savedPeople = defaults.object(forKey: "people") as? Data {
+            if let decodedPeople = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedPeople) as? [Person] {
+                people = decodedPeople
+            }
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
